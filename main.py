@@ -1,28 +1,5 @@
-import csv
-import os
-
-FILENAME = "student.csv"
-header = ["Roll_no", "Name", "Branch", "Year", "Gender", "Age", "Attendance",
-          "Mid1_marks", "Mid2_marks", "Quizmarks", "Finalmarks"]
-
-# Create CSV if it doesn't exist
-if not os.path.exists(FILENAME):
-    with open(FILENAME, "w", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-    print("student.csv created successfully")
-
-# Read all students
-def read_students():
-    with open(FILENAME, newline='') as f:
-        return list(csv.DictReader(f))
-
-# Write all students
-def write_students(students):
-    with open(FILENAME, 'w', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=header)
-        writer.writeheader()
-        writer.writerows(students)
+from student_utils import read_students, write_students
+from remove_student import remove_student
 
 # Add Student
 def add_student():
@@ -68,17 +45,20 @@ def add_student():
     except ValueError:
         print("Invalid input. Please enter numbers for age and marks.")
 
-# Menu (only Add Student)
+# Menu
 def menu():
     while True:
         print("\n------------- STUDENT MANAGEMENT SYSTEM --------------")
         print("1. Add New Student")
-        print("2. Exit")
+        print("2. Remove Student")
+        print("3. Exit")
         choice = input("Enter a choice: ")
 
         if choice == "1":
             add_student()
         elif choice == "2":
+            remove_student()
+        elif choice == "3":
             print("Exiting program.")
             break
         else:
